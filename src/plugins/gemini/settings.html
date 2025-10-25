@@ -1,78 +1,17 @@
 <div class="form-group">
-    <label for="textPrompt" class="form-label">Text Prompt:</label>
-    <input type="text" id="textPrompt" name="textPrompt" placeholder="Kurzbeschreibung oder Stichworte..." required class="form-input">
+    <label for="url" class="form-label">URL:</label>
+    <input type="text" id="url" name="url" placeholder="Type something..." required class="form-input">
 </div>
 
 <div class="form-group">
-    <label for="imageModel" class="form-label">Image Model:</label>
-    <select id="imageModel" name="imageModel" class="form-input" onchange="toggleQualityDropdown()">
-        <option value="generative-image-1" selected>Gemini Generative (gemini-2.5-flash-image)</option>
-        <option value="image-gemini-1">Image Gemini 1</option>
-        <option value="image-bison">Image Bison</option>
-    </select>
-</div>
-
-<div class="form-group">
-    <label for="quality" class="form-label">Quality / Preset:</label>
-    <select id="quality" name="quality" class="form-input"></select>
-</div>
-
-<div class="form-group">
-    <label for="orientation" class="form-label">Orientation / Aspect:</label>
-    <select id="orientation" name="orientation" class="form-input">
-        <option value="horizontal" selected>Horizontal</option>
-        <option value="square">Square</option>
-        <option value="vertical">Vertical</option>
-    </select>
-</div>
-
-<div class="form-group">
-    <label for="randomizePrompt" class="form-label">Randomize / Enhance Prompt:</label>
-    <div class="toggle-container">
-        <input type="checkbox" id="randomizePrompt" name="randomizePrompt" class="toggle-checkbox" value="false" onclick="this.value=this.checked ? 'true' : 'false';">
-        <label for="randomizePrompt" class="toggle-label"></label>
-    </div>
+    <span>Warning: Do not run with untrusted URLs, as it may pose a security risk. This may also fail if the website takes too long to load.</span>
 </div>
 
 <script>
-    function toggleQualityDropdown(quality = "") {
-        const model = document.getElementById("imageModel").value;
-        const q = document.getElementById("quality");
-        q.innerHTML = "";
-
-        if (model === "generative-image-1") {
-            q.add(new Option("HD", "hd"));
-            q.add(new Option("Standard", "standard"));
-        } else if (model === "image-gemini-1") {
-            q.add(new Option("High", "high"));
-            q.add(new Option("Medium", "medium"));
-        } else if (model === "image-bison") {
-            q.add(new Option("Standard", "standard"));
+    // populate form values from plugin settings
+    document.addEventListener('DOMContentLoaded', () => {        
+        if (loadPluginSettings) {
+            document.getElementById('url').value = pluginSettings.url;
         }
-
-        if (quality) q.value = quality;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // Default values (ähnlich zum alten ChatGPT-Plugin)
-        var imageModel = 'generative-image-1';
-        var quality = 'standard';
-        var orientation = 'horizontal';
-        var randomize = false;
-
-        if (typeof loadPluginSettings !== 'undefined' && loadPluginSettings) {
-            document.getElementById('textPrompt').value = pluginSettings.textPrompt || '';
-            imageModel = pluginSettings.imageModel || imageModel;
-            quality = pluginSettings.quality || quality;
-            orientation = pluginSettings.orientation || orientation;
-            randomize = pluginSettings.randomizePrompt === 'true' || pluginSettings.randomizePrompt === true;
-        }
-
-        document.getElementById('imageModel').value = imageModel;
-        document.getElementById('orientation').value = orientation;
-        document.getElementById('randomizePrompt').checked = randomize;
-        document.getElementById('randomizePrompt').value = randomize ? 'true' : 'false';
-
-        toggleQualityDropdown(quality);
     });
 </script>
