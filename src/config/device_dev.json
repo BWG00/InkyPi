@@ -1,6 +1,27 @@
 {
     "name": "InkyPi Development",
     "display_type": "mock",
-    "resolution": [800, 480],
-    "orientation": "horizontal"
+    "resolution": [
+        800,
+        480
+    ],
+    "orientation": "horizontal",
+    "playlist_config": {
+        "playlists": [
+            {
+                "name": "Default",
+                "start_time": "00:00",
+                "end_time": "24:00",
+                "plugins": [],
+                "current_plugin_index": null
+            }
+        ],
+        "active_playlist": null
+    },
+    "refresh_info": {
+        "refresh_time": "2025-10-25T18:18:45.071503+00:00",
+        "image_hash": "23219edc7d1641ad0aa8c2b506403891791260d6aa6f034b07b7188515565995",
+        "refresh_type": "Manual Update",
+        "plugin_id": "newspaper"
+    }
 }

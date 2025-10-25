@@ -12,7 +12,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Gemini(BasePlugin):
-    def generate_image(self, device_config):
+    def generate_image(self, settings, device_config):
         api_key = device_config.load_env_key("GOOGLE_API_KEY")
         if not api_key:
             raise RuntimeError("GEMINI API Key not configured.")
