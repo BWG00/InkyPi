@@ -14,3 +14,6 @@ psutil==7.0.0
 cysystemd==2.0.1
 waitress==3.0.2
 feedparser==6.0.11
+
+# Google GenAI SDK (required for Gemini image plugin)
+google-genai
