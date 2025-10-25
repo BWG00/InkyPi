@@ -8,9 +8,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-IMAGE_MODELS = ["dall-e-3", "dall-e-2", "gpt-image-1"]
-DEFAULT_IMAGE_MODEL = "dall-e-3"
-DEFAULT_IMAGE_QUALITY = "standard"
 
 class AIImage(BasePlugin):
     def generate_settings_template(self):
