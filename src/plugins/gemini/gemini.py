@@ -19,7 +19,7 @@ class Gemini(BasePlugin):
         client = genai.Client(api_key=api_key)
         prompt = ("Create a simple drawing of a duck.")
         response = client.models.generate_content(
-            model="emini-2.0-flash-preview-image-generation",
+            model="gemini-2.0-flash-preview-image-generation",
             contents=[prompt]
         )
         for part in response.candidates[0].content.parts:
