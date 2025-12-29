@@ -19,9 +19,9 @@
         "active_playlist": null
     },
     "refresh_info": {
-        "refresh_time": "2025-10-25T18:18:45.071503+00:00",
-        "image_hash": "23219edc7d1641ad0aa8c2b506403891791260d6aa6f034b07b7188515565995",
+        "refresh_time": "2025-10-25T19:13:32.912302+00:00",
+        "image_hash": "ba201db68a19d3d6ece59d563d7528bfc38a18f3bd2171e42175ff3717b05d47",
         "refresh_type": "Manual Update",
-        "plugin_id": "newspaper"
+        "plugin_id": "gemini"
     }
 }

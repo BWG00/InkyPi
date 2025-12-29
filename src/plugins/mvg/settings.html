@@ -1,0 +1,133 @@
+<!-- MVG Plugin Settings -->
+<div class="plugin-settings">
+    <h3>MVG Echtzeit-Abfahrten</h3>
+    
+    <div class="form-group">
+        <label for="station_name">Haltestelle Name:</label>
+        <input 
+            type="text" 
+            id="station_name" 
+            name="station_name" 
+            placeholder="z.B. Hauptbahnhof München"
+            value="{{ instance_settings.get('station_name', '') }}"
+            required>
+        <small>Der Name der Haltestelle für die Anzeige</small>
+    </div>
+
+    <div class="form-group">
+        <label for="station_id">Haltestellen ID:</label>
+        <input 
+            type="text" 
+            id="station_id" 
+            name="station_id" 
+            placeholder="z.B. de:09162:6"
+            value="{{ instance_settings.get('station_id', '') }}"
+            required>
+        <small>Die eindeutige MVG Stations-ID (erforderlich)</small>
+    </div>
+
+    <div class="form-group">
+        <label for="departure_limit">Anzahl der Abfahrten:</label>
+        <input 
+            type="number" 
+            id="departure_limit" 
+            name="departure_limit" 
+            min="1" 
+            max="15"
+            value="{{ instance_settings.get('departure_limit', '8') }}">
+        <small>Wie viele Abfahrten sollen angezeigt werden?</small>
+    </div>
+
+    <div class="form-group">
+        <label for="frame_style">Frame Stil:</label>
+        <select id="frame_style" name="frame_style">
+            <option value="">Kein Rahmen</option>
+            <option value="simple" {% if instance_settings.get('frame_style') == 'simple' %}selected{% endif %}>Einfacher Rahmen</option>
+            <option value="rounded" {% if instance_settings.get('frame_style') == 'rounded' %}selected{% endif %}>Abgerundeter Rahmen</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="text_color">Textfarbe:</label>
+        <input 
+            type="color" 
+            id="text_color" 
+            name="text_color"
+            value="{{ instance_settings.get('text_color', '#000000') }}">
+    </div>
+
+    <div class="form-group">
+        <label for="background_color">Hintergrundfarbe:</label>
+        <input 
+            type="color" 
+            id="background_color" 
+            name="background_color"
+            value="{{ instance_settings.get('background_color', '#FFFFFF') }}">
+    </div>
+
+    <div class="info-box">
+        <h4>Wie finde ich meine Haltestellen-ID?</h4>
+        <ol>
+            <li>Besuche <a href="https://www.mvg.de" target="_blank">mvg.de</a></li>
+            <li>Suche deine Haltestelle</li>
+            <li>Die ID ist in der URL oder kann über die MVG API ermittelt werden</li>
+        </ol>
+    </div>
+</div>
+
+<style>
+.plugin-settings {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 3px;
+    color: #666;
+    font-size: 12px;
+}
+
+.info-box {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.info-box h4 {
+    margin-top: 0;
+}
+
+.info-box ol {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.info-box a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.info-box a:hover {
+    text-decoration: underline;
+}
+</style>

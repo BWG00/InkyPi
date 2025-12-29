@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MVG Live Departures</title>
+    <link rel="stylesheet" href="{{ base_css_path }}">
+    <link rel="stylesheet" href="mvg.css">
+</head>
+<body>
+    <div class="mvg-container">
+        <div class="header">
+            <h1 class="station-name">{{ station_name }}</h1>
+            <div class="current-time">{{ current_time }}</div>
+        </div>
+
+        <div class="departures-list">
+            {% if departures %}
+                <table class="departures-table">
+                    <thead>
+                        <tr>
+                            <th class="col-time">Uhrzeit</th>
+                            <th class="col-line">Linie</th>
+                            <th class="col-destination">Ziel</th>
+                            <th class="col-info">Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for departure in departures %}
+                            <tr class="departure-row {% if departure.cancelled %}cancelled{% endif %}{% if departure.delay > 0 %}delayed{% endif %}">
+                                <td class="col-time">
+                                    <span class="time">{{ departure.time }}</span>
+                                    {% if departure.delay > 0 %}
+                                        <span class="delay">+{{ departure.delay }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="col-line">
+                                    <span class="line-number line-{{ departure.product.lower() }}">
+                                        {{ departure.line_number }}
+                                    </span>
+                                </td>
+                                <td class="col-destination">
+                                    <span class="destination">{{ departure.destination }}</span>
+                                </td>
+                                <td class="col-info">
+                                    {% if departure.cancelled %}
+                                        <span class="badge cancelled">Ausfallen</span>
+                                    {% endif %}
+                                    {% if departure.diversion %}
+                                        <span class="badge diversion">Umleitung</span>
+                                    {% endif %}
+                                    {% if departure.platform %}
+                                        <span class="badge platform">{{ departure.platform }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="no-data">
+                    <p>Keine Abfahrten verfügbar</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

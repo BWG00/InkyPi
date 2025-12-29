@@ -1,0 +1,198 @@
+/* MVG Plugin Styles */
+
+.mvg-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    color: #000000;
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0066cc;
+    margin-bottom: 10px;
+}
+
+.station-name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #0066cc;
+    flex: 1;
+}
+
+.current-time {
+    font-size: 14px;
+    color: #666;
+    text-align: right;
+}
+
+.departures-list {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.departures-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.departures-table thead {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+}
+
+.departures-table th {
+    padding: 5px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.departures-table tbody {
+    overflow-y: auto;
+}
+
+.departure-row {
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.departure-row:hover {
+    background-color: #f9f9f9;
+}
+
+.departure-row.delayed {
+    background-color: #fff3cd;
+}
+
+.departure-row.cancelled {
+    background-color: #f8d7da;
+    opacity: 0.7;
+}
+
+.departure-row td {
+    padding: 5px;
+    vertical-align: middle;
+}
+
+.col-time {
+    width: 60px;
+    font-weight: bold;
+}
+
+.time {
+    display: block;
+    font-size: 13px;
+}
+
+.delay {
+    display: block;
+    color: #d9534f;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.col-line {
+    width: 50px;
+}
+
+.line-number {
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    font-size: 11px;
+    min-width: 35px;
+}
+
+/* Line type colors */
+.line-u {
+    background-color: #0066cc;
+}
+
+.line-s {
+    background-color: #00b386;
+}
+
+.line-bus {
+    background-color: #ff6600;
+}
+
+.line-sbahn {
+    background-color: #009999;
+}
+
+.line-ubahn {
+    background-color: #0066cc;
+}
+
+.line-tram {
+    background-color: #cc0000;
+}
+
+.col-destination {
+    flex: 1;
+    min-width: 150px;
+}
+
+.destination {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.col-info {
+    text-align: right;
+    width: 100px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 2px 5px;
+    margin: 0 2px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.badge.cancelled {
+    background-color: #d9534f;
+    color: white;
+}
+
+.badge.diversion {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+.badge.platform {
+    background-color: #5cb85c;
+    color: white;
+}
+
+.no-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #999;
+    font-size: 16px;
+    text-align: center;
+}
