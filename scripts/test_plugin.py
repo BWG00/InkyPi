@@ -13,7 +13,7 @@ RESOLUTIONS = [
 ]
 ORIENTATIONS = ["horizontal", "vertical"]
 
-plugin_id = "ai_text"
+plugin_id = "mvg"
 plugin_settings = {
     "title": "Today In History",
     "textModel": "gpt-4o",

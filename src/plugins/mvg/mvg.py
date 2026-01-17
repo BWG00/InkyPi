@@ -1,16 +1,11 @@
 from plugins.base_plugin.base_plugin import BasePlugin
 from PIL import Image
-import requests
 import logging
 from datetime import datetime
 import pytz
+import mvg_api
 
 logger = logging.getLogger(__name__)
-
-# MVG API endpoints
-MVG_API_URL = "https://www.mvg.de/api/fib/v2"
-STATIONS_URL = f"{MVG_API_URL}/stations"
-DEPARTURES_URL = f"{MVG_API_URL}/departures"
 
 
 class MVG(BasePlugin):
@@ -62,82 +57,54 @@ class MVG(BasePlugin):
     def get_departures(self, station_id, limit=8):
         """Fetch departures from MVG API."""
         try:
-            url = f"{DEPARTURES_URL}?staId={station_id}&limit={limit}"
-            headers = {
-                'User-Agent': 'InkyPi/1.0'
-            }
+            departures_data = mvg_api.get_departures(station_id)
             
-            response = requests.get(url, headers=headers, timeout=10)
-            response.raise_for_status()
-            
-            data = response.json()
             departures = []
+            for dep in departures_data[:limit]:
+                # Parse departure time
+                departure_time_min = dep.get('departureTimeMinutes', 0)
+                if departure_time_min == 0:
+                    time_str = "Jetzt"
+                else:
+                    time_str = f"{departure_time_min} min"
+                
+                departures.append({
+                    'time': time_str,
+                    'line_number': dep.get('label', 'N/A'),
+                    'line_name': dep.get('label', 'Unknown'),
+                    'destination': dep.get('destination', 'Unknown'),
+                    'product': dep.get('transportType', 'BUS'),
+                    'platform': dep.get('platform', ''),
+                    'delay': dep.get('delay', 0),
+                    'cancelled': dep.get('cancelled', False),
+                    'diversion': False
+                })
             
-            if 'departures' in data:
-                for dep in data['departures']:
-                    departure_time = self.parse_departure_time(dep.get('departureTime'))
-                    line = dep.get('line', {})
-                    
-                    departures.append({
-                        'time': departure_time,
-                        'line_number': line.get('number', 'N/A'),
-                        'line_name': line.get('name', 'Unknown'),
-                        'destination': dep.get('destination', 'Unknown'),
-                        'product': line.get('product', 'BUS'),
-                        'platform': dep.get('platform', ''),
-                        'delay': dep.get('delay', 0),
-                        'cancelled': dep.get('cancelled', False),
-                        'diversion': dep.get('diversion', False)
-                    })
+            return departures
             
-            return departures[:limit]
-            
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error fetching MVG departures: {str(e)}")
-            raise
         except Exception as e:
-            logger.error(f"Error parsing MVG data: {str(e)}")
+            logger.error(f"Error fetching MVG departures: {str(e)}")
             raise
 
     def get_stations(self, query):
         """Search for stations by name."""
         try:
-            url = f"{STATIONS_URL}?query={query}"
-            headers = {
-                'User-Agent': 'InkyPi/1.0'
-            }
+            stations_data = mvg_api.get_stations(query)
             
-            response = requests.get(url, headers=headers, timeout=10)
-            response.raise_for_status()
-            
-            data = response.json()
             stations = []
-            
-            if isinstance(data, list):
-                for station in data[:10]:  # Return top 10 results
-                    stations.append({
-                        'id': station.get('id'),
-                        'name': station.get('name'),
-                        'latitude': station.get('latitude'),
-                        'longitude': station.get('longitude')
-                    })
+            for station in stations_data[:10]:  # Return top 10 results
+                stations.append({
+                    'id': station.get('id'),
+                    'name': station.get('name'),
+                    'latitude': station.get('latitude'),
+                    'longitude': station.get('longitude')
+                })
             
             return stations
             
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             logger.error(f"Error searching MVG stations: {str(e)}")
             return []
-        except Exception as e:
-            logger.error(f"Error parsing stations data: {str(e)}")
-            return []
-
-    def parse_departure_time(self, time_value):
-        """Parse departure time from MVG API."""
-        if isinstance(time_value, int):
-            # Unix timestamp in milliseconds
-            from datetime import datetime
-            return datetime.fromtimestamp(time_value / 1000).strftime('%H:%M')
-        return str(time_value)
 
     def get_style_settings(self, settings):
         """Extract style settings from plugin settings."""

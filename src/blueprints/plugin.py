@@ -148,6 +148,31 @@ def display_plugin_instance():
 
     return jsonify({"success": True, "message": "Display updated"}), 200
 
+@plugin_bp.route('/mvg/search_stations', methods=['GET'])
+def mvg_search_stations():
+    """Search for MVG stations by name."""
+    query = request.args.get('query', '')
+    
+    if not query or len(query) < 2:
+        return jsonify({"stations": []})
+    
+    try:
+        # Get MVG plugin instance to use its search method
+        device_config = current_app.config['DEVICE_CONFIG']
+        mvg_plugin_config = device_config.get_plugin('mvg')
+        
+        if not mvg_plugin_config:
+            return jsonify({"error": "MVG plugin not found"}), 404
+        
+        mvg_plugin = get_plugin_instance(mvg_plugin_config)
+        stations = mvg_plugin.get_stations(query)
+        
+        return jsonify({"stations": stations})
+        
+    except Exception as e:
+        logger.exception(f"Error searching MVG stations: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 @plugin_bp.route('/update_now', methods=['POST'])
 def update_now():
     device_config = current_app.config['DEVICE_CONFIG']

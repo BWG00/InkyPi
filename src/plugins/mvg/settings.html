@@ -2,6 +2,11 @@
 <div class="plugin-settings">
     <h3>MVG Echtzeit-Abfahrten</h3>
     
+    <div class="alert alert-warning">
+        <strong>⚠️ Hinweis:</strong> Die automatische Stationssuche ist derzeit nicht verfügbar, da die MVG API sich geändert hat.
+        Bitte verwende das Hilfsskript, um deine Station-ID zu finden (siehe unten).
+    </div>
+
     <div class="form-group">
         <label for="station_name">Haltestelle Name:</label>
         <input 
@@ -9,7 +14,6 @@
             id="station_name" 
             name="station_name" 
             placeholder="z.B. Hauptbahnhof München"
-            value="{{ instance_settings.get('station_name', '') }}"
             required>
         <small>Der Name der Haltestelle für die Anzeige</small>
     </div>
@@ -21,7 +25,6 @@
             id="station_id" 
             name="station_id" 
             placeholder="z.B. de:09162:6"
-            value="{{ instance_settings.get('station_id', '') }}"
             required>
         <small>Die eindeutige MVG Stations-ID (erforderlich)</small>
     </div>
@@ -34,7 +37,7 @@
             name="departure_limit" 
             min="1" 
             max="15"
-            value="{{ instance_settings.get('departure_limit', '8') }}">
+            value="8">
         <small>Wie viele Abfahrten sollen angezeigt werden?</small>
     </div>
 
@@ -42,8 +45,8 @@
         <label for="frame_style">Frame Stil:</label>
         <select id="frame_style" name="frame_style">
             <option value="">Kein Rahmen</option>
-            <option value="simple" {% if instance_settings.get('frame_style') == 'simple' %}selected{% endif %}>Einfacher Rahmen</option>
-            <option value="rounded" {% if instance_settings.get('frame_style') == 'rounded' %}selected{% endif %}>Abgerundeter Rahmen</option>
+            <option value="simple">Einfacher Rahmen</option>
+            <option value="rounded">Abgerundeter Rahmen</option>
         </select>
     </div>
 
@@ -53,7 +56,7 @@
             type="color" 
             id="text_color" 
             name="text_color"
-            value="{{ instance_settings.get('text_color', '#000000') }}">
+            value="#000000">
     </div>
 
     <div class="form-group">
@@ -62,15 +65,31 @@
             type="color" 
             id="background_color" 
             name="background_color"
-            value="{{ instance_settings.get('background_color', '#FFFFFF') }}">
+            value="#FFFFFF">
     </div>
 
     <div class="info-box">
-        <h4>Wie finde ich meine Haltestellen-ID?</h4>
+        <h4>📍 Wie finde ich meine Haltestellen-ID?</h4>
+        <p><strong>Option 1: Hilfsskript verwenden (empfohlen)</strong></p>
+        <ol>
+            <li>Öffne ein Terminal im InkyPi-Verzeichnis</li>
+            <li>Führe aus: <code>python scripts/find_mvg_station.py</code></li>
+            <li>Gib den Namen deiner Haltestelle ein</li>
+            <li>Kopiere die angezeigte Station-ID</li>
+        </ol>
+        
+        <p><strong>Option 2: Bekannte Station-IDs</strong></p>
+        <ul>
+            <li>Hauptbahnhof München: <code>de:09162:6</code></li>
+            <li>Marienplatz: <code>de:09162:2</code></li>
+            <li>Sendlinger Tor: <code>de:09162:4</code></li>
+        </ul>
+        
+        <p><strong>Option 3: MVG Website</strong></p>
         <ol>
             <li>Besuche <a href="https://www.mvg.de" target="_blank">mvg.de</a></li>
             <li>Suche deine Haltestelle</li>
-            <li>Die ID ist in der URL oder kann über die MVG API ermittelt werden</li>
+            <li>Die ID findet sich im Format: <code>de:09162:NUMMER</code></li>
         </ol>
     </div>
 </div>
@@ -78,6 +97,19 @@
 <style>
 .plugin-settings {
     padding: 20px;
+}
+
+.alert {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border-left: 4px solid;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+    color: #856404;
 }
 
 .form-group {
@@ -129,5 +161,14 @@
 
 .info-box a:hover {
     text-decoration: underline;
+}
+
+.info-box code {
+    background-color: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #d63384;
 }
 </style>
